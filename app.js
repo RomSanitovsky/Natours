@@ -1,23 +1,21 @@
 const fs = require('fs');
 const express = require('express');
-const { allowedNodeEnvironmentFlags } = require('process');
+const morgan = require('morgan');
+
 const app = express();
 
+// 1) Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
-
-// app.get('/',(req,res)=>{
-//     res.status(200).json({Messege : 'wow' , mode : 2});
-// }
-// );
-
-// app.post('/',(req,res)=>{
-//     res.send('this is post');
-// }
-// );
-
+app.use((req,res,next)=> {
+    console.log('hello from the middleware');
+    next();
+});
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-app.get('/api/v1/tours',(req,res)=>{
+
+// 2) Route Handlers
+const getAllTours = (req,res)=>{
     res.status(200).json({
         status: 'success',
         results: tours.length,
@@ -25,9 +23,9 @@ app.get('/api/v1/tours',(req,res)=>{
             tours
         }
     })
-});
+};
 
-app.get('/api/v1/tours/:id',(req,res)=>{
+const getTour = (req,res)=>{
 
     console.log(req.params);
     const id = req.params.id*1;
@@ -44,10 +42,10 @@ app.get('/api/v1/tours/:id',(req,res)=>{
         data: {  
             tour
         }
-     })
-});
+     });
+};
 
-app.post('/api/v1/tours',(req,res)=>{
+const createTour = (req,res)=>{
     //console.log(req.body);
     const newId = tours[tours.length-1].id +1;
     const newTour = Object.assign({id: newId}, req.body);
@@ -59,10 +57,10 @@ app.post('/api/v1/tours',(req,res)=>{
                 tour: newTour
             }
         });
-    });
-});
+    });   
+};
 
-app.patch('/api/v1/tours/:id',(req,res)=>{
+const updateTour = (req,res)=>{
     const id = req.params.id*1;
     const tour = tours.find(el=> el.id === id);
     if (!tour)
@@ -78,8 +76,49 @@ app.patch('/api/v1/tours/:id',(req,res)=>{
             tour: "<update tour here..."
         }
     });
-});
+};
 
+const deleteTour = (req,res)=>{
+    const id = req.params.id*1;
+    const tour = tours.find(el=> el.id === id);
+    if (!tour)
+    {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+    res.status(204).json({
+        status: "success",
+        data: null
+    });
+};
+
+
+// app.get('/api/v1/tours', getAllTours);
+
+// app.get('/api/v1/tours/:id', getTour);
+
+// app.post('/api/v1/tours', createTour);
+
+// app.patch('/api/v1/tours/:id', updateTour);
+
+// app.delete('/api/v1/tours/:id', deleteTour);
+
+
+// 3) Routes
+app
+    .route('/api/v1/tours')
+    .get(getAllTours)
+    .post(createTour);
+app
+    .route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
+
+
+// 4) Start Server
 const port=3000;
 app.listen(port , ()=>{
     console.log(`app running on port ${port}...`);
