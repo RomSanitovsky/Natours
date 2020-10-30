@@ -1,4 +1,5 @@
-const dotenv= require('dotenv');
+const dotenv = require('dotenv');
+
 dotenv.config({path: './config.env'})
 const app = require('./app');
 
@@ -10,3 +11,5 @@ app.listen(port , ()=>{
     console.log(`app running on port ${port}...`);
 });
 
+
+const x=23;
