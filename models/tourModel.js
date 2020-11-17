@@ -55,7 +55,7 @@ const tourSchema = new mongoose.Schema({
                 //this only poins to current doc on New document creation
                 return val< this.price;
             },
-        message : 'Discount ({VALUE}) should be below price'
+             message : 'Discount ({VALUE}) should be below price'
         }
 
     },
