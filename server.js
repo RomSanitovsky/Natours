@@ -1,6 +1,13 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
+process.on('uncaughtException', err => {
+    console.log('UNHANDLER EXEPTION!    SHUTING DOWN...');
+    console.log(err.name , err.message);
+    process.exit(1);
+
+})
+
 dotenv.config({path: './config.env'});
 
 const DB= process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD);
@@ -10,11 +17,21 @@ mongoose.connect(DB ,
         useCreateIndex: true,
         useFindAndModify: false
     }).then(()=>{console.log("DB connection successful!");
-    });
+    }).catch(err => console.log('ERROR'));
     
 const app = require('./app');
 
 const port=process.env.PORT || 3000;
-app.listen(port , ()=>{
+const server = app.listen(port , ()=>{
     console.log(`app running on port ${port}...`);
 });
+
+
+process.on('unhandledRejection', err => {
+    console.log('UNHANDLER REJECTION!    SHUTING DOWN...');
+    console.log(err.name , err.message);
+    server.close(() => {
+        process.exit(1);
+    });
+});
+
