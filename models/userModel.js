@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema({
     passwordResetExpired: Date
 });
 
+
 userSchema.pre('save', async function(next) {
     //only run this function if password was actually modified
     if (!this.isModified('password')) return next();
@@ -55,6 +56,13 @@ userSchema.pre('save', async function(next) {
 
     //delete passwordConfirm field
     this.passwordConfirm = undefined;
+    next();
+});
+
+userSchema.pre('save', function(next){
+    if (!this.isModified('password') || this.isNew) return next();
+
+    this.passwordChangedAt = Date.now()-1000;
     next();
 });
 
