@@ -31,16 +31,21 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.1",
     "express-rate-limit": "^5.2.3",
     "helmet": "^4.2.0",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
+    "mongo-sanitize": "^1.1.0",
     "mongoose": "^5.10.11",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.16",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
     "slugify": "^1.4.6",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "xss": "^1.0.8",
+    "xss-clean": "^0.1.1"
   },
   "engines": {
     "node": ">=10.0.0"
