@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const User = require('./userModel');
+const Review = require('./reviewModel')
 
-
+ 
 const tourSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -122,7 +123,14 @@ const tourSchema = new mongoose.Schema({
 tourSchema.virtual('durationWeeks').get(function() {
     return this.duration/7;
 });
-//DOUCUMENT MIDDLEWARE: RUNS BEFORE SAVE() AND CREATE()
+// virtual populate
+tourSchema.virtual('reviews',{
+    ref: 'Review',
+    foreignField: 'tour',
+    localField: '_id'
+});
+
+//DOUCUMENT MIDDLEWARE: RUNS BEFORE SAVE() AND CREATE() 
 
 
 tourSchema.pre(/^find/, function(next) {
