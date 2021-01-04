@@ -42,6 +42,7 @@
     "nodemailer": "^6.4.16",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
+    "pug": "^3.0.0",
     "slugify": "^1.4.6",
     "validator": "^13.1.17",
     "xss": "^1.0.8",
