@@ -21,6 +21,7 @@
   "homepage": "https://github.com/RomSanitovsky/Natours#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb": "^18.2.0",
@@ -33,6 +34,7 @@
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.1",
     "express-rate-limit": "^5.2.3",
+    "gyp": "^0.5.0",
     "helmet": "^4.2.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",

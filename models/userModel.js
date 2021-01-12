@@ -80,7 +80,7 @@ userSchema.pre(/^find/, function(next) {
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword,userPassword);
 };
-userSchema.methods.changedPasswordAfter = function(JWTTimeStamp) {
+userSchema.methods.changedPasswordAfter = function(JWTTimeStamp) {   
     if (this.passwordChangedAt){
         const changedTimeStamp = parseInt(this.passwordChangedAt.getTime()/1000 , 10);
         return JWTTimeStamp<changedTimeStamp; 
